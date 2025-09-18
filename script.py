@@ -20,10 +20,6 @@ username = wait.until(
     ec.element_to_be_clickable((By.ID, "username"))
 )
 
-
-elem = driver.find_element(By.ID, "username")
-print("displayed:", elem.is_displayed(), "enabled:", elem.is_enabled())
-
 username.send_keys(os.getenv("USUARIO"))
 
 username = wait.until(
