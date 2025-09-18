@@ -1,6 +1,7 @@
 from selenium import webdriver
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import Select
+from selenium.webdriver.support.ui import Select, WebDriverWait
+from selenium.webdriver.support import expected_conditions as ec
 from dotenv import load_dotenv
 import os
 
@@ -9,25 +10,36 @@ load_dotenv()
 
 driver = webdriver.Chrome()
 
+wait = WebDriverWait(driver, 2)
 
 driver.get("http://mvsoulsml.corp.medgrupo.net:81/report-designer")
 
-driver.implicitly_wait(5)
+driver.implicitly_wait(1)
 
-username = driver.find_element(by=By.NAME, value="username").send_keys(os.getenv("USUARIO"))
+username = wait.until(
+    ec.element_to_be_clickable((By.ID, "username"))
+)
 
-password = driver.find_element(by=By.NAME, value="password").send_keys(os.getenv("SENHA"))
 
-company = driver.find_element(by=By.NAME, value="company")
+elem = driver.find_element(By.ID, "username")
+print("displayed:", elem.is_displayed(), "enabled:", elem.is_enabled())
+
+username.send_keys(os.getenv("USUARIO"))
+
+username = wait.until(
+    ec.element_to_be_clickable((By.ID, "password"))
+)
+username.send_keys(os.getenv("SENHA"))
+
+
+company = Select(driver.find_element(by=By.ID, value="companies"))
+
+wait.until(lambda d: len(company.options) > 1)
+
+company.select_by_value("1")
 
 submit_button = driver.find_element(by=By.NAME, value="submit")
 
 submit_button.click()
-
-message = driver.find_element(by=By.ID, value="message")
-
-text = message.text
-
-print(text)
 
 driver.quit()
