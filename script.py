@@ -1,25 +1,26 @@
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import Select
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
+
 
 driver = webdriver.Chrome()
 
 
-driver.get("http://soulmv.gruposanta.com.br/mvautenticador-cas/login?service=http%3A%2F%2Fsoulreport.gruposanta.com.br%3A80%2Freport-designer%2Flogin%2Fcas")
+driver.get("http://mvsoulsml.corp.medgrupo.net:81/report-designer")
 
-title = driver.title 
+driver.implicitly_wait(5)
 
-driver.implicitly_wait(0.5)
+username = driver.find_element(by=By.NAME, value="username").send_keys(os.getenv("USUARIO"))
 
-username = driver.find_element(by=By.NAME, value="username")
-
-password = driver.find_element(by=By.NAME, value="password")
+password = driver.find_element(by=By.NAME, value="password").send_keys(os.getenv("SENHA"))
 
 company = driver.find_element(by=By.NAME, value="company")
 
 submit_button = driver.find_element(by=By.NAME, value="submit")
-
-text_box.send_keys("Selenium")
 
 submit_button.click()
 
