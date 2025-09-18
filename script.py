@@ -12,7 +12,7 @@ driver = webdriver.Chrome()
 
 wait = WebDriverWait(driver, 2)
 
-driver.get("http://mvsoulsml.corp.medgrupo.net:81/report-designer")
+driver.get(os.getenv("REPORT_URL"))
 
 driver.implicitly_wait(1)
 
