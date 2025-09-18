@@ -14,8 +14,6 @@ wait = WebDriverWait(driver, 2)
 
 driver.get(os.getenv("REPORT_URL"))
 
-driver.implicitly_wait(1)
-
 username = wait.until(
     ec.element_to_be_clickable((By.ID, "username"))
 )
